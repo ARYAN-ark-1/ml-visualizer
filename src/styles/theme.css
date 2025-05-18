@@ -1,0 +1,275 @@
+/* ========================
+   Modern Pro Light & Dark Theme
+   ======================== */
+
+/* --- Light Mode Variables --- */
+:root {
+  --color-primary: #3366ff;          /* Vibrant Blue Accent */
+  --color-secondary: #f5f7fa;        /* Soft Light Gray Background */
+  --color-surface: #ffffff;          /* Pure White Cards & Surfaces */
+  --color-text-primary: #1a1a1a;     /* Dark Charcoal Text */
+  --color-text-secondary: #555f7a;   /* Muted Secondary Text */
+  --color-border: #e0e6f1;           /* Light Border */
+  --color-shadow: rgba(51, 102, 255, 0.15); /* Subtle Blue Shadow */
+  --color-hover-bg: #335dff;         /* Darker Blue on Hover */
+  --color-hover-text: #f5f7fa;       /* Light Text on Hover */
+  --color-navbar-bg: #f8faff;        /* Very light blue-ish */
+  --color-footer-bg: #e9edf7;        /* Soft footer background */
+  --transition-speed: 0.3s;
+}
+
+/* --- Dark Mode Variables --- */
+.dark {
+  --color-primary: #4a90e2;          /* Softer Blue Accent */
+  --color-secondary: #121721;        /* Almost Black Background */
+  --color-surface: #1f2738;          /* Dark Surface */
+  --color-text-primary: #e4e9f0;     /* Light Gray Text */
+  --color-text-secondary: #a0aec0;   /* Muted Light Text */
+  --color-border: #2e3a59;           /* Dark Border */
+  --color-shadow: rgba(74, 144, 226, 0.5); /* Stronger Blue Shadow */
+  --color-hover-bg: #1e2a5f;         /* Deep Blue Hover */
+  --color-hover-text: #d7e3fc;       /* Light Hover Text */
+  --color-navbar-bg: #182136;        /* Dark Navbar */
+  --color-footer-bg: #202a43;        /* Dark Footer */
+  --transition-speed: 0.3s;
+}
+
+/* ========== Global Reset & Base ========= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease,
+              box-shadow var(--transition-speed) ease, border-color var(--transition-speed) ease;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-color: var(--color-secondary);
+  color: var(--color-text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ========== Navbar ========== */
+nav.navbar {
+  background-color: var(--color-navbar-bg);
+  box-shadow: 0 4px 10px var(--color-shadow);
+  padding: 1rem 2rem;
+  border-radius: 0.75rem;
+  max-width: 1120px;
+  margin: 1.25rem auto 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 1.25rem;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+
+nav.navbar.hidden {
+  transform: translateY(-6rem);
+  opacity: 0;
+  pointer-events: none;
+}
+
+nav.navbar.visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.nav-links a {
+  color: var(--color-text-primary);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  position: relative;
+  padding-bottom: 3px;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background-color: var(--color-primary);
+  transition: width var(--transition-speed) ease;
+  border-radius: 2px;
+}
+
+.nav-links a:hover,
+.nav-links a:focus {
+  color: var(--color-primary);
+}
+
+.nav-links a:hover::after,
+.nav-links a:focus::after {
+  width: 100%;
+}
+
+button.toggle-btn {
+  margin-left: 1rem;
+  padding: 0.375rem 1.25rem;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  font-size: 0.9rem;
+  background-color: transparent;
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary);
+  cursor: pointer;
+  user-select: none;
+}
+
+button.toggle-btn:hover,
+button.toggle-btn:focus {
+  background-color: var(--color-primary);
+  color: var(--color-surface);
+  outline: none;
+  box-shadow: 0 0 10px var(--color-primary);
+}
+
+/* ========== Algorithm Cards ========== */
+.algorithm-card {
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  box-shadow: 0 8px 15px var(--color-shadow);
+  padding: 2rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color var(--transition-speed), color var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+.algorithm-card:hover,
+.algorithm-card:focus {
+  background-color: var(--color-primary);
+  color: var(--color-hover-text);
+  box-shadow: 0 15px 25px var(--color-shadow);
+  outline: none;
+}
+
+/* ========== Hero Section ========== */
+.hero-section {
+  background-color: var(--color-secondary);
+  color: var(--color-text-primary);
+  min-height: 80vh;
+  padding: 4rem 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3rem;
+}
+
+.hero-section .text-content {
+  flex: 1 1 400px;
+  max-width: 600px;
+}
+
+.hero-section h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 1.25rem;
+  color: var(--color-primary);
+}
+
+.hero-section p {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+  color: var(--color-text-secondary);
+}
+
+.hero-explore-btn {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 1.125rem;
+  padding: 1rem 2.5rem;
+  border-radius: 1rem;
+  background-color: var(--color-primary);
+  color: var(--color-surface);
+  text-decoration: none;
+  box-shadow: 0 8px 15px var(--color-shadow);
+  transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
+  user-select: none;
+}
+
+.hero-explore-btn:hover,
+.hero-explore-btn:focus {
+  background-color: var(--color-hover-bg);
+  box-shadow: 0 15px 25px var(--color-shadow);
+  outline: none;
+}
+
+/* ========== Footer ========== */
+.footer-section {
+  background-color: var(--color-footer-bg);
+  color: var(--color-text-secondary);
+  padding: 3rem 2rem;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.footer-contact h3 {
+  color: var(--color-primary);
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.footer-contact p {
+  margin: 0.25rem 0;
+}
+
+/* ========== Responsive Adjustments ========== */
+@media (max-width: 768px) {
+  .hero-section {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .hero-section .text-content {
+    max-width: 100%;
+  }
+  
+  nav.nav-links {
+    gap: 1rem;
+  }
+}
+
+/* ========== Professional Image Style ========== */
+.professional-image {
+  display: block;
+  max-width: 100%;
+  border-radius: 1rem; /* Smooth rounded corners */
+  box-shadow: 0 8px 16px var(--color-shadow); /* Subtle shadow using your theme variable */
+  border: 2px solid transparent; /* Start with transparent border */
+  background-color: var(--color-surface); /* Match the card/surface color */
+  object-fit: cover;
+  transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease, border-color var(--transition-speed) ease;
+  cursor: pointer;
+}
+
+.professional-image:hover,
+.professional-image:focus {
+  transform: scale(1.03); /* Slight zoom on hover */
+  box-shadow: 0 15px 25px var(--color-shadow); /* Stronger shadow on hover */
+  border-color: var(--color-primary); /* Border glows primary color */
+  outline: none;
+}
