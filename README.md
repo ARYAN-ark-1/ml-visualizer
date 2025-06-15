@@ -51,9 +51,9 @@ npm run dev
 ```
 
 ### Links
-Live Demo: https://your-username.github.io/ml-visualizer
+Live Demo: https://ml-visualizer-7.vercel.app/
 
-Portfolio: https://your-portfolio-link.com
+Portfolio: https://name-is-aryan.vercel.app/
 
 Contact: aryanmalik20197@gmail.com
 
