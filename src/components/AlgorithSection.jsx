@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 const algorithms = [
   { name: 'KMeans Clustering', path: '/kmeans' },
   { name: 'Hierarchical Clustering', path: '/hierarchical' },
+  { name: 'FP-Growth', path: '/fpgrowth' },
+  { name: 'Apriori', path: '/apriori' },  // Added Apriori here
 ];
 
 export default function AlgorithmSection() {

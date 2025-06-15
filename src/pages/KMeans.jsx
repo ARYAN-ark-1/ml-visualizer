@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import KMeansChart from "../components/KMeansChart";
 
 function getRandomPoints(num, maxX = 10, maxY = 10) {
   const points = [];
@@ -19,10 +20,7 @@ function distance(p1, p2) {
 
 function mean(points) {
   if (points.length === 0) return [0, 0];
-  const sum = points.reduce(
-    (acc, p) => [acc[0] + p[0], acc[1] + p[1]],
-    [0, 0]
-  );
+  const sum = points.reduce((acc, p) => [acc[0] + p[0], acc[1] + p[1]], [0, 0]);
   return [sum[0] / points.length, sum[1] / points.length];
 }
 
@@ -35,13 +33,14 @@ const centroidColors = [
 export default function KMeans() {
   const [points, setPoints] = useState([]);
   const [k, setK] = useState(3);
+  const [numPoints, setNumPoints] = useState(10);
   const [initialCentroids, setInitialCentroids] = useState([]);
   const [history, setHistory] = useState([]);
 
   const formatPoint = (p) => `(${p[0].toFixed(3)}, ${p[1].toFixed(3)})`;
 
   const init = () => {
-    const pts = getRandomPoints(10);
+    const pts = getRandomPoints(numPoints);
     setPoints(pts);
     setInitialCentroids(pts.slice(0, k));
     setHistory([]);
@@ -112,20 +111,14 @@ export default function KMeans() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white">
-      <Navbar /> {/* Navbar fixed on top */}
+      <Navbar />
 
-      {/* 
-        Responsive padding top:
-        - pt-24 on small screens (~96px)
-        - pt-32 on medium (~128px)
-        - pt-44 on large (176px) for enough space below Navbar
-      */}
       <main className="flex-grow pt-24 md:pt-32 lg:pt-44 px-4 sm:px-6 max-w-5xl mx-auto w-full">
         <h1 className="text-2xl sm:text-3xl font-bold mb-6">K-Means Clustering</h1>
 
         <div className="mb-6 flex flex-wrap gap-4 items-center">
           <label className="flex items-center gap-2 text-base sm:text-lg">
-            <span>Number of clusters (k):</span>
+            <span>No. of clusters (k):</span>
             <input
               type="number"
               min={2}
@@ -134,7 +127,21 @@ export default function KMeans() {
               onChange={(e) =>
                 setK(Math.min(10, Math.max(2, Number(e.target.value))))
               }
-              className="ml-2 p-2 border rounded dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 text-base sm:text-lg w-20 text-center"
+              className="p-2 border rounded dark:bg-gray-700 w-20 text-center"
+            />
+          </label>
+
+          <label className="flex items-center gap-2 text-base sm:text-lg">
+            <span>No. of points:</span>
+            <input
+              type="number"
+              min={5}
+              max={50}
+              value={numPoints}
+              onChange={(e) =>
+                setNumPoints(Math.min(50, Math.max(5, Number(e.target.value))))
+              }
+              className="p-2 border rounded dark:bg-gray-700 w-20 text-center"
             />
           </label>
 
@@ -225,11 +232,22 @@ export default function KMeans() {
                 </div>
               ))}
             </div>
+
+            {history.length > 0 && (
+              <>
+                <h2 className="text-xl sm:text-2xl font-semibold mt-10 mb-4">Final Result Visualization:</h2>
+                <KMeansChart
+                  points={points}
+                  labels={history[history.length - 1].labels}
+                  centroids={history[history.length - 1].newCentroids}
+                />
+              </>
+            )}
           </>
         )}
       </main>
 
-      <Footer /> {/* Footer at bottom */}
+      <Footer />
     </div>
   );
 }

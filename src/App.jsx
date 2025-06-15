@@ -6,6 +6,8 @@ import Hierarchical from './pages/Heirarchical'
 import './index.css'
 import { DarkModeProvider } from './context/DarkModeContext'
 import Navbar from './components/Navbar'
+import FPGrowth from './pages/FPGrowth'
+import Apriori from './pages/Apriori'
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/kmeans" element={<KMeans />} />
           <Route path="/hierarchical" element={<Hierarchical />} />
+          <Route path="/fpgrowth" element={<FPGrowth />} />
+          <Route path="/apriori" element={<Apriori />} />
         </Routes>
       </BrowserRouter>
     </DarkModeProvider>
