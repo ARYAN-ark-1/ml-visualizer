@@ -168,7 +168,7 @@ export default function Navbar() {
         <div className="flex flex-col px-4 py-3 space-y-1">
           {/* Portfolio Link (Mobile) */}
           <a
-            href="https://your-portfolio-url.com"
+            href="https://name-is-aryan.vercel.app/"
             target="_blank"
             rel="noopener noreferrer"
             className="block px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-blue-100 dark:hover:bg-blue-900"
