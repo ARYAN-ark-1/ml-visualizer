@@ -4,18 +4,23 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        light: {
-          background: '#f5f5f5', // dull white/light grey
-          surface: '#ffffff',    // pure white
-          text: '#333333',       // dark grey (for readability)
-          accent: '#bbbbbb',     // medium grey as accent (instead of purple)
+        background: 'var(--bg-app)',
+        surface: 'var(--bg-surface)',
+        border: 'var(--border-color)',
+
+        primary: 'var(--text-primary)',
+        secondary: 'var(--text-secondary)',
+        muted: 'var(--text-muted)',
+
+        accent: {
+          DEFAULT: 'var(--accent-primary)',
+          hover: 'var(--accent-hover)',
+          highlight: 'var(--accent-highlight)',
         },
-        dark: {
-          background: '#121212', // almost black
-          surface: '#1e1e1e',    // dark grey
-          text: '#e0e0e0',       // light grey text
-          accent: '#666666',     // medium-dark grey accent
-        },
+
+        success: 'var(--color-success)',
+        warning: 'var(--color-warning)',
+        error: 'var(--color-error)',
       },
     },
   },

@@ -1,3 +1,50 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    :root {
+        /* Paper Pro (Light Mode) */
+        --bg-app: #F9FAFB;
+        --bg-surface: #FFFFFF;
+        --border-color: #E5E7EB;
+
+        --text-primary: #0F172A;
+        --text-secondary: #475569;
+        --text-muted: #64748B;
+
+        --accent-primary: #4F46E5;
+        --accent-hover: #4338CA;
+        --accent-highlight: #EEF2FF;
+
+        --color-success: #16A34A;
+        --color-warning: #D97706;
+        --color-error: #DC2626;
+    }
+
+    .dark {
+        /* Midnight Pro (Dark Mode) */
+        --bg-app: #020617;
+        --bg-surface: #020617;
+        /* Use border/shadow for separation */
+        --border-color: #1E293B;
+        /* Slightly lighter for visibility */
+
+        --text-primary: #E5E7EB;
+        --text-secondary: #94A3B8;
+        --text-muted: #64748B;
+
+        --accent-primary: #818CF8;
+        --accent-hover: #6366F1;
+        --accent-highlight: #1E1B4B;
+
+        --color-success: #22C55E;
+        --color-warning: #FACC15;
+        --color-error: #F87171;
+    }
+
+    body {
+        background-color: var(--bg-app);
+        color: var(--text-primary);
+    }
+}

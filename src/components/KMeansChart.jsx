@@ -1,55 +1,96 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Scatter } from "react-chartjs-2";
 import { Chart, PointElement, LinearScale, Title, Tooltip, Legend } from "chart.js";
 
 Chart.register(PointElement, LinearScale, Title, Tooltip, Legend);
 
-const colors = [
-  "rgba(255,99,132,1)", "rgba(54,162,235,1)", "rgba(255,206,86,1)",
-  "rgba(75,192,192,1)", "rgba(153,102,255,1)", "rgba(255,159,64,1)",
-  "rgba(0,200,83,1)", "rgba(233,30,99,1)", "rgba(255,87,34,1)", "rgba(63,81,181,1)",
+// Professional Palette (Paper Pro inspired)
+const palette = [
+  "rgba(99, 102, 241, 0.8)",   // Indigo (Accent)
+  "rgba(16, 185, 129, 0.8)",   // Emerald
+  "rgba(245, 158, 11, 0.8)",   // Amber
+  "rgba(236, 72, 153, 0.8)",   // Pink
+  "rgba(6, 182, 212, 0.8)",    // Cyan
+  "rgba(139, 92, 246, 0.8)",   // Violet
+  "rgba(244, 63, 94, 0.8)",    // Rose
+  "rgba(132, 204, 22, 0.8)",   // Lime
+  "rgba(14, 165, 233, 0.8)",   // Sky
+  "rgba(234, 179, 8, 0.8)",    // Yellow
 ];
 
 export default function KMeansChart({ points, labels, centroids }) {
-  const clusterData = centroids.map((_, clusterIdx) => {
-    const clusterPoints = points
-      .map((p, i) => (labels[i] === clusterIdx ? { x: p[0], y: p[1] } : null))
-      .filter(Boolean);
-    return {
-      label: `Cluster ${clusterIdx}`,
-      data: clusterPoints,
-      backgroundColor: colors[clusterIdx],
-    };
-  });
+  // Use useMemo to avoid re-calculating data on every render unless props change
+  const data = useMemo(() => {
+    const clusterData = centroids.map((_, clusterIdx) => {
+      const clusterPoints = points
+        .map((p, i) => (labels[i] === clusterIdx ? { x: p[0], y: p[1] } : null))
+        .filter(Boolean);
+      return {
+        label: `Cluster ${clusterIdx}`,
+        data: clusterPoints,
+        backgroundColor: palette[clusterIdx % palette.length],
+        pointRadius: 6,
+        pointHoverRadius: 8,
+      };
+    });
 
-  const centroidData = {
-    label: "Centroids",
-    data: centroids.map((c) => ({ x: c[0], y: c[1] })),
-    backgroundColor: "black",
-    pointStyle: "triangle",
-    radius: 8,
+    const centroidData = {
+      label: "Centroids",
+      data: centroids.map((c) => ({ x: c[0], y: c[1] })),
+      backgroundColor: "black", // Keep black for strong contrast, or use a dark distinct color
+      borderColor: "white",
+      borderWidth: 2,
+      pointStyle: "rectRot", // Diamond shape
+      pointRadius: 10,
+      pointHoverRadius: 12,
+    };
+
+    return { datasets: [...clusterData, centroidData] };
+  }, [points, labels, centroids]);
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    animation: {
+      duration: 400,
+      easing: 'easeOutQuart'
+    },
+    plugins: {
+      legend: {
+        position: "top",
+        labels: {
+          usePointStyle: true,
+          font: { family: "Inter, system-ui, sans-serif", size: 12 }
+        }
+      },
+      title: {
+        display: false, // We have external title
+      },
+      tooltip: {
+        backgroundColor: 'rgba(15, 23, 42, 0.9)',
+        padding: 10,
+        cornerRadius: 8,
+        titleFont: { family: "Inter, system-ui, sans-serif" },
+        bodyFont: { family: "Inter, system-ui, sans-serif" },
+      }
+    },
+    scales: {
+      x: {
+        title: { display: true, text: "X Axis", font: { weight: 'bold' }, color: '#94a3b8' },
+        grid: { color: 'rgba(128, 128, 128, 0.2)' },
+        ticks: { color: '#94a3b8' }
+      },
+      y: {
+        title: { display: true, text: "Y Axis", font: { weight: 'bold' }, color: '#94a3b8' },
+        grid: { color: 'rgba(128, 128, 128, 0.2)' },
+        ticks: { color: '#94a3b8' }
+      },
+    },
   };
 
   return (
     <div className="w-full h-[400px] sm:h-[500px]">
-      <Scatter
-        data={{ datasets: [...clusterData, centroidData] }}
-        options={{
-          responsive: true,
-          plugins: {
-            legend: { position: "top" },
-            title: {
-              display: true,
-              text: "Final K-Means Clustering Result",
-              font: { size: 18 },
-            },
-          },
-          scales: {
-            x: { title: { display: true, text: "X" } },
-            y: { title: { display: true, text: "Y" } },
-          },
-        }}
-      />
+      <Scatter data={data} options={options} />
     </div>
   );
 }

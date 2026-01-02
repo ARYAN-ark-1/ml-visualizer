@@ -51,38 +51,52 @@ export default function AssociationRulesTable({ data, transactions, minSupport }
     });
   });
 
-  if (rules.length === 0) return <p>No association rules available.</p>;
+  if (rules.length === 0) return (
+    <div className="p-4 bg-surface rounded-xl border border-border text-center text-muted">
+      No strong association rules found (Confidence too low or single items).
+    </div>
+  );
 
   return (
-    <div className="overflow-x-auto">
-      <table className="min-w-full text-left border-collapse border border-gray-300 dark:border-gray-600">
-        <thead>
-          <tr className="bg-gray-200 dark:bg-gray-700">
-            <th className="border border-gray-300 dark:border-gray-600 px-3 py-1">Rule</th>
-            <th className="border border-gray-300 dark:border-gray-600 px-3 py-1">Support</th>
-            <th className="border border-gray-300 dark:border-gray-600 px-3 py-1">Confidence</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rules.map(({ antecedent, consequent, support, confidence }, i) => {
-            const accepted = support >= minSupport;
-            return (
-              <tr
-                key={i}
-                className={accepted ? "bg-green-100 dark:bg-green-900" : "bg-red-100 dark:bg-red-900"}
-              >
-                <td className="border border-gray-300 dark:border-gray-600 px-3 py-1 font-mono">
-                  {antecedent.join(", ")} → {consequent.join(", ")}
-                </td>
-                <td className="border border-gray-300 dark:border-gray-600 px-3 py-1">{support}</td>
-                <td className="border border-gray-300 dark:border-gray-600 px-3 py-1">
-                  {(confidence * 100).toFixed(2)}%
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+    <div className="bg-surface rounded-xl shadow-sm border border-border overflow-hidden">
+      <div className="px-6 py-4 border-b border-border bg-background/50 flex justify-between items-center">
+        <h3 className="font-bold text-primary text-lg">Association Rules</h3>
+        <span className="text-xs text-muted font-medium bg-background px-2 py-1 rounded border border-border">Derived from Frequent Itemsets</span>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="w-full text-left text-sm border-collapse">
+          <thead className="bg-surface">
+            <tr>
+              <th className="px-6 py-3 border-b border-border text-secondary font-semibold">Rule (Antecedent &rarr; Consequent)</th>
+              <th className="px-6 py-3 border-b border-border text-secondary font-semibold w-24 text-center">Support</th>
+              <th className="px-6 py-3 border-b border-border text-secondary font-semibold w-32 text-center">Confidence</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rules.map(({ antecedent, consequent, support, confidence }, i) => {
+              const isHighConfidence = confidence >= 0.7; // Arbitrary high aesthetic threshold for coloring
+              return (
+                <tr
+                  key={i}
+                  className="border-b border-border/50 last:border-0 hover:bg-background transition-colors"
+                >
+                  <td className="px-6 py-4 font-mono text-xs flex items-center gap-2">
+                    <span className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-primary">{antecedent.join(", ")}</span>
+                    <span className="text-muted">&rarr;</span>
+                    <span className="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 px-2 py-1 rounded font-bold">{consequent.join(", ")}</span>
+                  </td>
+                  <td className="px-6 py-4 text-center text-primary font-medium">{support}</td>
+                  <td className="px-6 py-4 text-center font-bold">
+                    <span className={isHighConfidence ? "text-success" : "text-warning"}>
+                      {(confidence * 100).toFixed(0)}%
+                    </span>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
