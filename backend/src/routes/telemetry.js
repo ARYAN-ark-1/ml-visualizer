@@ -6,9 +6,9 @@ const crypto = require('crypto');
 // Helper to hash IP for privacy
 const hashIP = (ip) => crypto.createHash('sha256').update(ip).digest('hex');
 
-// POST /api/analytics/visit
+// POST /api/telemetry
 // Tracks a visit securely. Handles unique users + reload protection.
-router.post('/visit', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const { visitorId } = req.body; // Client-generated UUID stored in localStorage
         const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown';
