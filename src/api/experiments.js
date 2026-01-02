@@ -1,4 +1,13 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
+// Standardize API_URL to always end with /api
+const getApiUrl = () => {
+    let url = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+    // Remove trailing slash
+    if (url.endsWith('/')) url = url.slice(0, -1);
+    // Append /api if not present
+    if (!url.endsWith('/api')) url += '/api';
+    return url;
+};
+const API_URL = getApiUrl();
 
 // Helper to get or create visitorId
 const getVisitorId = () => {
