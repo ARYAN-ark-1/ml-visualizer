@@ -17,10 +17,11 @@ export default function Home() {
         localStorage.setItem('ml_viz_visitor_id', visitorId);
       }
 
-      const data = await trackVisit(visitorId);
-      if (data && data.totalVisitors) {
-        setVisitorCount(data.totalVisitors);
-      }
+      trackVisit(visitorId).then(data => {
+        if (data && data.totalVisitors) {
+          setVisitorCount(data.totalVisitors);
+        }
+      });
     };
 
     initAnalytics();

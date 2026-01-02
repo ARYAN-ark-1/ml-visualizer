@@ -52,19 +52,16 @@ export const runExperimentStream = async (algorithm, params, points, onStep, onE
 };
 
 export const trackVisit = async (visitorId) => {
-    try {
-        const response = await fetch(`${API_URL}/analytics/visit`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ visitorId }),
-        });
-        return response.json();
-    } catch (err) {
-        console.error('Failed to track visit:', err);
-        return null;
-    }
+    // Non-blocking fire-and-forget approach, returns promise for optional handling
+    return fetch(`${API_URL}/telemetry`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ visitorId }),
+    })
+        .then(res => res.json())
+        .catch(() => null);
 };
 
 export const getExperiment = async (id) => {
